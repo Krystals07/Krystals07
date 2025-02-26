@@ -1,0 +1,714 @@
+ScreenManager:
+    LoginScreen:
+    SignupScreen:
+    WelcomeScreen:
+    ForgotPasswordScreen:
+    AboutusScreen:
+    Edit_ProfileScreen:
+    NotificationScreen:
+    EmergencyContactScreen:
+    FeedbackScreen:
+
+<EmergencyContactScreen>:
+    name: "emergency_contact"
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '10dp'
+        spacing: '10dp'
+
+        MDLabel:
+            text: "Emergency Contacts"
+            halign: 'center'
+            font_style: 'H4'
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDTextField:
+            id: contact_input
+            hint_text: "Enter emergency contact number"
+            size_hint_x: 0.8
+            pos_hint: {'center_x': 0.5}
+            input_filter: 'int'
+            max_text_length: 10
+
+        MDRaisedButton:
+            text: "Add Contact"
+            size_hint_x: 0.8
+            pos_hint: {'center_x': 0.5}
+            on_release: app.add_emergency_contact("+91" + contact_input.text)
+
+        MDLabel:
+            text: "Emergency Contacts List"
+            halign: 'center'
+            font_style: 'H6'
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        RecycleView:
+            id: contacts_list
+            viewclass: 'OneLineListItem'
+            RecycleBoxLayout:
+                default_size: None, dp(48)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+
+        MDFlatButton:
+            text: "Back to Home"
+            size_hint_x: None
+            width: "200dp"
+            pos_hint: {'center_x': 0.5}
+            on_release: root.manager.current = "welcome"
+<ContactItem@BoxLayout>:
+    orientation: 'horizontal'
+    spacing: "10dp"
+    size_hint_y: None
+    height: "48dp"
+
+    Label:
+        text: root.text
+        size_hint_x: 0.7
+        theme_text_color: "Custom"
+        text_color: root.text_color
+
+    Button:
+        text: "Remove"
+        size_hint_x: 0.3
+        on_release: app.remove_emergency_contact(root.text)
+
+<FeedbackScreen>:
+    name: "feedback"
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(20)
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDLabel:
+                    text: "We value your feedback!"
+                    halign: "center"
+                    font_style: "H5"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+                MDTextField:
+                    id: feedback_input
+                    hint_text: "Enter your feedback here..."
+                    multiline: True
+                    size_hint_y: None
+                    height: dp(150)
+
+                MDFillRoundFlatButton:
+                    text: "Submit Feedback"
+                    size_hint_x: None
+                    width: dp(200)
+                    pos_hint: {"center_x": 0.5}
+                    on_release: app.submit_feedback(feedback_input.text)
+        
+        FloatLayout:
+            MDTextButton:
+                text: "Back to Home"
+                theme_text_color: "Custom"
+                text_color: 0.294, 0, 0.51, 1
+                pos_hint: {"center_x": 0.5, "center_y": 0.15}
+                on_release: root.manager.current = "welcome"
+
+<NotificationScreen>:
+    name: "notifications"
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(20)
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDLabel:
+                    text: "Manage Notifications"
+                    halign: "center"
+                    font_style: "H6"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+                MDSwitch:
+                    id: notification_switch
+                    text: 'Enable Notifications'
+                    active: True
+                    on_active: app.toggle_notifications(self.active)
+        
+
+        FloatLayout:
+            MDTextButton:
+                text: "Back to Home"
+                theme_text_color: "Custom"
+                text_color: 0.294, 0, 0.51, 1
+                pos_hint: {"center_x": 0.5, "center_y": 0.15}
+                on_release: root.manager.current = "welcome"
+
+
+<LoginScreen>:
+    name: "login"
+    ScrollView:
+        do_scroll_x: True
+        do_scroll_y: False
+        AnchorLayout:
+            orientation: 'top'
+            MDFloatLayout:
+                md_bg_color: 1, 1, 1, 1
+                Image:
+                    source: "car_accident.png"
+                    size_hint: None, None
+                    size: "300dp", "300dp"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.85}
+
+                MDLabel:
+                    text: "Login"
+                    halign: "center"
+                    font_style: "H5"
+                    bold: True
+                    pos_hint: {"center_x": 0.5, "center_y": 0.68}
+
+                MDTextField:
+                    id: email
+                    hint_text: "Email"
+                    icon_left: "email"
+                    size_hint_x: 0.75
+                    pos_hint: {"center_x": 0.5, "center_y": 0.58}
+
+                MDTextField:
+                    id: password
+                    hint_text: "Password"
+                    icon_left : "lock"
+                    password: True
+                    size_hint_x: 0.75
+                    pos_hint: {"center_x": 0.5, "center_y": 0.48}
+                    
+
+                MDIconButton:
+                    id: password_eye
+                    icon: "eye-off"
+                    theme_text_color: "Hint"
+                    pos_hint: {"center_x": 0.85, "center_y": 0.48}
+                    on_release: app.toggle_password_visibility(root.ids.password, root.ids.password_eye)
+                MDFillRoundFlatButton:
+                    text: "Login"
+                    size_hint_x: None
+                    pos_hint: {"center_x": 0.5, "center_y": 0.35}
+                    on_release: app.login(email.text, password.text)
+                    size_hint_x: 0.8
+                    size_hint_y: 0.06
+                    canvas.before:
+                        Color:
+                            rgb: rgba(76, 145, 244, 255)
+
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [5]
+
+                MDFillRoundFlatButton:
+                    text: "Sign Up"
+                    size_hint_x: 0.8
+                    size_hint_y: 0.06
+                    pos_hint: {"center_x": 0.5, "center_y": 0.28}
+                    on_release: root.manager.current = "signup"
+
+                    canvas.before:
+                        Color:
+                            rgb: rgba(76, 145, 244, 255)
+
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [5]
+
+                MDTextButton:
+                    text: "Forgot Password?"
+                    color: 0.294, 0, 0.51, 1
+                    size_hint_x: None
+                    pos_hint: {"center_x": 0.5, "center_y": 0.1}
+                    font_style: 'Caption'
+                    on_release: root.manager.current = "forgotpassword"
+
+<SignupScreen>:
+    name: "signup"
+    MDFloatLayout:
+        orientation: "vertical"
+        pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            text: "Sign Up"
+            halign: "center"
+            font_style: "H5"
+            bold: True
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+
+        MDTextField:
+            id: full_name
+            hint_text: "Full Name"
+            icon_right: "account"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.8}
+
+        MDTextField:
+            id: mobile
+            input_filter: "int"
+            hint_text: "Mobile Number"
+            icon_right: "phone"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.7}
+
+        MDTextField:
+            id: email
+            hint_text: "Email"
+            icon_right: "email"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            password: True
+            icon_right: "lock"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+        MDTextField:
+            id: otp
+            hint_text: "OTP (4 digits)"
+            icon_right: "key"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.3}
+
+        MDFillRoundFlatButton:
+            text: "Send OTP"
+            size_hint_x: None
+            size_hint_y: None
+            width: "300dp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+            on_release: app.send_otp(mobile.text)
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+        MDFillRoundFlatButton:
+            text: "Register"
+            font_size: "15dp"
+            theme_text_color: "Custom"
+            color: 1, 1, 1, 1
+            size_hint_x: 0.8
+            size_hint_y: 0.05
+            pos_hint: {"center_x": 0.5, "center_y": 0.18}
+            on_release: app.register(full_name.text, mobile.text, email.text, password.text, otp.text)
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+        MDTextButton:
+            text: "Back to Login"
+            font_size: "14dp"
+            theme_text_color: "Custom"
+            color: 1, 1, 1, 1
+            size_hint_x: 0.8
+            size_hint_y: 0.06
+            pos_hint: {"center_x": 0.5, "center_y": 0.11}
+            on_release: root.manager.current = "login"
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+<DrawerClickableItem@MDNavigationDrawerItem>
+
+<WelcomeScreen>:
+    name: "home"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1  # White background
+
+        # Top App Bar
+        MDTopAppBar:
+            title: "Accident Detection"
+            halign: 'center'
+            elevation: 0
+            left_action_items: [["menu", lambda x: nav_drawer.set_state('toggle')]]
+            pos_hint: {'top': 1}  # Stick to the top
+
+        # Main Content
+        BoxLayout:
+            orientation: 'vertical'
+            padding: '20dp'
+            spacing: '20dp'
+            size_hint_y: None
+            height: self.minimum_height
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}  # Center the content
+
+            # Welcome Message
+            MDLabel:
+                text: "Welcome to Accident Detection!"
+                halign: 'center'
+                font_style: 'H4'
+                theme_text_color: 'Primary'
+                size_hint_y: None
+                height: self.texture_size[1]
+
+            # App Logo/Image
+            Image:
+                source: 'car_accident.png'  # Replace with your image path
+                size_hint: (0.5, 0.5)
+                pos_hint: {'center_x': 0.5}
+
+            # Description
+            MDLabel:
+                text: "This app helps detect accidents and notify emergency contacts."
+                halign: 'center'
+                font_style: 'Body1'
+                theme_text_color: 'Secondary'
+                size_hint_y: None
+                height: self.texture_size[1]
+
+            # Start Detection Button
+            MDRaisedButton:
+                text: "Start Detection"
+                size_hint: (0.8, None)
+                height: '48dp'
+                pos_hint: {'center_x': 0.5}
+                on_release: app.start_detection()  # Define this method in your app
+
+            # Emergency Contacts Button
+            MDFlatButton:
+                text: "Emergency Contacts"
+                size_hint: (0.8, None)
+                height: '48dp'
+                pos_hint: {'center_x': 0.5}
+                on_release: root.manager.current = 'emergency_contact'
+
+            # Feedback Button
+            MDFlatButton:
+                text: "Go to Feedback"
+                size_hint: (0.8, None)
+                height: '48dp'
+                pos_hint: {'center_x': 0.5}
+                on_release: app.root.current = 'feedback'
+
+            # About Us Button
+            MDFlatButton:
+                text: "Go to About Us"
+                size_hint: (0.8, None)
+                height: '48dp'
+                pos_hint: {'center_x': 0.5}
+                on_release: app.root.current = 'aboutus'
+
+        # Navigation Drawer
+        MDNavigationDrawer:
+            id: nav_drawer
+            size_hint: None, 1
+            width: Window.size[1] - 425
+            radius: [0, 0]
+            MDNavigationDrawerMenu:
+                MDNavigationDrawerHeader:
+                    id: user
+                    title: "Smart Accident Alert System"
+                    text: "Fast Response, Save Lives."
+                    text_color: "#6c7272"
+                    text_font_size: '13sp'
+                    title_color: "#00f0ff"
+                    title_font_size: '20sp'
+                    spacing: '4dp'
+                    padding: "12dp", 0, 0, "5dp"
+
+                MDNavigationDrawerDivider:
+
+                MDNavigationDrawerLabel:
+                    text: "Menu"
+                DrawerClickableItem:
+                    icon: "home-outline"
+                    text: "Home"
+                    on_release:
+                        root.manager.transition.direction = "down"
+                        nav_drawer.set_state('close')
+                DrawerClickableItem:
+                    icon: "bell-outline"
+                    text_right_color: "#4a4930"
+                    text: "Notification"
+                    on_release:
+                        root.manager.transition.direction = "down"
+                        root.manager.current = "notifications"
+                        nav_drawer.set_state('close')
+
+                DrawerClickableItem:
+                    icon: 'account-edit-outline'
+                    text: "Edit Profile"
+                    on_release:
+                        root.manager.current = "Edit_Profile"
+
+                MDNavigationDrawerDivider:
+                MDNavigationDrawerLabel:
+                    text: "Help"
+
+                DrawerClickableItem:
+                    icon: 'information-outline'
+                    text: "About Us"
+
+                DrawerClickableItem:
+                    icon: 'message-alert-outline'
+                    text: "Feedback"
+
+                MDNavigationDrawerDivider:
+
+                DrawerClickableItem:
+                    icon: 'logout'
+                    text: "Logout"
+                    on_release:
+                        root.manager.transition.direction = "down"
+                        nav_drawer.set_state('close')
+                        app.clear_content()
+                        root.manager.current = 'login'
+
+<ForgotPasswordScreen>:
+    name: "forgotpassword"
+    MDFloatLayout:
+        orientation: "vertical"
+        pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            text: "Forgot Password"
+            halign: "center"
+            font_style: "H5"
+            bold: True
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+
+        MDTextField:
+            id: mobile
+            input_filter: "int"
+            hint_text: "Mobile Number"
+            icon_right: "phone"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.8}
+
+        MDTextField:
+            id: new_password
+            hint_text: "New Password"
+            icon_right: "lock"
+            password: True
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.7}
+
+        MDTextField:
+            id: confirm_password
+            hint_text: "Confirm Password"
+            icon_right: "lock"
+            password: True
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+
+        MDFillRoundFlatButton:
+            text: "Send OTP"
+            size_hint_x: None
+            size_hint_y: None
+            width: "300dp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_release: app.send_otp1(mobile.text)
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+        MDTextField:
+            id: otp
+            hint_text: "OTP (4 digits)"
+            icon_right: "key"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+
+        MDFillRoundFlatButton:
+            text: "Update Password"
+            font_size: "15dp"
+            theme_text_color: "Custom"
+            color: 1, 1, 1, 1
+            size_hint_x: 0.8
+            size_hint_y: 0.05
+            pos_hint: {"center_x": 0.5, "center_y": 0.3}
+            on_release: app.update_password(mobile.text, new_password.text, confirm_password.text, otp.text)
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+        MDFillRoundFlatButton:
+            text: "Back to Login"
+            font_size: "14dp"
+            theme_text_color: "Custom"
+            color: 1, 1, 1, 1
+            size_hint_x: 0.8
+            size_hint_y: 0.06
+            pos_hint: {"center_x": 0.5, "center_y": 0.23}
+            on_release: root.manager.current = "login"
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+<NotificationSettingsScreen>:
+    name: 'notifications'
+    BoxLayout:
+        orientation: 'vertical'
+        MDToolbar:
+            title: 'Notification Settings'
+            left_action_items: [['arrow-left', lambda x: app.go_back()]]
+        BoxLayout:
+            orientation: 'vertical'
+            padding: dp(20)
+            spacing: dp(20)
+            MDSwitch:
+                id: notification_switch
+                text: 'Enable Notifications'
+                on_active: app.toggle_notifications(self.active)
+<AboutusScreen>
+    name: "aboutus"
+    BoxLayout:
+        orientation: "vertical"
+        MDLabel:
+            text: "Welcome to About Us!"
+            halign: "center"
+        MDFlatButton:
+            text: "Back"
+            on_release: app.root.current = "welcome"
+
+<Edit_ProfileScreen>:
+    name: "Edit_Profile"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1  # White background
+        
+        MDLabel:
+            text: "Edit Profile"
+            halign: "center"
+            font_style: "H5"
+            bold: True
+            pos_hint: {"center_x": 0.5, "center_y": 0.88}
+
+        MDTextField:
+            id: full_name
+            hint_text: "Full Name"
+            icon_left: "account"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.75}
+
+        MDTextField:
+            id: mobile
+            hint_text: "Mobile Number"
+            readonly: True
+            icon_left: "phone"
+            input_filter: "int"
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.65}
+
+        MDTextField:
+            id: email
+            hint_text: "Email"
+            icon_left: "email"
+            size_hint_x: 0.75
+            readonly: True
+            pos_hint: {"center_x": 0.5, "center_y": 0.55}
+
+        MDTextField:
+            id: current_password
+            hint_text: "Current Password"
+            icon_left: "lock"
+            password: True
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.45}
+            
+
+        MDIconButton:
+            id: current_password_eye
+            icon: "eye-off"
+            theme_text_color: "Hint"
+            pos_hint: {"center_x": 0.85, "center_y": 0.45}
+            on_release: app.toggle_password_visibility(current_password, current_password_eye)
+
+        MDTextField:
+            id: new_password
+            hint_text: "New Password"
+            icon_left: "lock"
+            password: True
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.35}
+            
+
+        MDIconButton:
+            id: new_password_eye
+            icon: "eye-off"
+            theme_text_color: "Hint"
+            pos_hint: {"center_x": 0.85, "center_y": 0.35}
+            on_release: app.toggle_password_visibility(new_password, new_password_eye)
+
+        MDTextField:
+            id: confirm_password
+            hint_text: "Confirm Password"
+            icon_left: "lock"
+            password: True
+            size_hint_x: 0.75
+            pos_hint: {"center_x": 0.5, "center_y": 0.25}
+            
+
+        MDIconButton:
+            id: confirm_password_eye
+            icon: "eye-off"
+            theme_text_color: "Hint"
+            pos_hint: {"center_x": 0.85, "center_y": 0.25}
+            on_release: app.toggle_password_visibility(confirm_password, confirm_password_eye)
+
+        MDFillRoundFlatButton:
+            text: "SAVE CHANGES"
+            size_hint_x: 0.8
+            pos_hint: {"center_x": 0.5, "center_y": 0.15}
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            on_release: app.update_profile(full_name.text, mobile.text, email.text, current_password.text, new_password.text, confirm_password.text)
+            canvas.before:
+                Color:
+                    rgb: rgba(76, 145, 244, 255)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [5]
+
+        MDTextButton:
+            text: "Back to Home"
+            theme_text_color: "Custom"
+            text_color: 0.294, 0, 0.51, 1
+            pos_hint: {"center_x": 0.5, "center_y": 0.06}
+            on_release: root.manager.current = "welcome"

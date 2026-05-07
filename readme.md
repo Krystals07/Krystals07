@@ -72,9 +72,7 @@ const Kalyani = {
 
 ---
 
-##  Leadership & Community
-
-<table>
+<!-- <table>
 <tr>
 <td align="center" width="33%">
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLzN0R_KpkUPpgnH-GDnmVdwZRmWeU9qk5lw&s" width="50"/> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpotYAFHt2O_79icTHaNO7SXvg4Y4d1M76bQ&s" width="70"/><br>
@@ -93,11 +91,10 @@ const Kalyani = {
 <sub>Contributed to innovative open-source projects</sub>
 </td>
 </tr>
-</table>
+</table> -->
 
 ---
 
-##  GitHub Stats
 
 <!-- <div align="center"> -->
 

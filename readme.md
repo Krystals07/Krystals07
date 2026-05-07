@@ -70,7 +70,6 @@ const Kalyani = {
 ![Strategy and Operations](https://img.shields.io/badge/Strategy%20%26%20Operations-D35400?style=flat-square&logo=asana&logoColor=white)
 
 
----
 
 <!-- <table>
 <tr>
@@ -93,8 +92,6 @@ const Kalyani = {
 </tr>
 </table> -->
 
----
-
 
 <!-- <div align="center"> -->
 
@@ -110,7 +107,6 @@ const Kalyani = {
 
 <!-- </div> -->
 
----
 
 ##  Let's Connect!
 
